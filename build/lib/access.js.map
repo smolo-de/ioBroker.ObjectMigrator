@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/access.ts"],
+  "sourcesContent": ["/**\n * Only the admin (the tab) may control the migrator - it changes objects of all adapters\n *\n * @param from - sender of a message\n */\nexport function isAllowedSender(from: string | undefined): boolean {\n    return typeof from === 'string' && /^system\\.adapter\\.admin\\.\\d+$/.test(from);\n}\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAKO,SAAS,gBAAgB,MAAmC;AAC/D,SAAO,OAAO,SAAS,YAAY,gCAAgC,KAAK,IAAI;AAChF;",
+  "names": []
+}
