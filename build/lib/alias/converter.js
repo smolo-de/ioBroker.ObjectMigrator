@@ -26,7 +26,19 @@ __export(converter_exports, {
 });
 module.exports = __toCommonJS(converter_exports);
 var import_expression = require("./expression");
-const lit = (v) => JSON.stringify(v);
+const UNSAFE_IN_CODE = {
+  "<": "\\u003C",
+  ">": "\\u003E",
+  "/": "\\u002F",
+  "\u2028": "\\u2028",
+  "\u2029": "\\u2029"
+};
+const lit = (v) => {
+  var _a;
+  return ((_a = JSON.stringify(v)) != null ? _a : "null").replace(/[<>/\u2028\u2029]/g, (ch) => UNSAFE_IN_CODE[ch]);
+};
+const finite = (v, fallback) => typeof v === "number" && Number.isFinite(v) ? v : fallback;
+const decimalsOf = (v) => typeof v === "number" && Number.isInteger(v) && v >= 0 && v <= 15 ? v : void 0;
 function isConverting(c) {
   var _a;
   return !!c && !!(((_a = c.read) == null ? void 0 : _a.trim()) || c.map && Object.keys(c.map).length || c.factor !== void 0 && c.factor !== 1 || c.offset !== void 0 && c.offset !== 0 || c.invert || c.to || c.decimals !== void 0 || c.suffix);
@@ -36,7 +48,7 @@ const round = (expr, decimals) => {
   return `Math.round(${expr} * ${p}) / ${p}`;
 };
 function converterToAlias(c, writeable = false) {
-  var _a, _b, _c, _d;
+  var _a, _b;
   if (!isConverting(c)) {
     return {};
   }
@@ -48,29 +60,31 @@ function converterToAlias(c, writeable = false) {
   if (c.map && Object.keys(c.map).length) {
     e = `(${lit(c.map)}[String(${e})] ?? ${e})`;
   }
-  const factor = (_c = c.factor) != null ? _c : 1;
-  const offset = (_d = c.offset) != null ? _d : 0;
+  const factor = finite(c.factor, 1);
+  const offset = finite(c.offset, 0);
+  const decimals = decimalsOf(c.decimals);
   if (factor !== 1 || offset !== 0) {
     e = `(Number(${e}) * ${factor}${offset ? ` + ${offset}` : ""})`;
+    invertible = factor !== 0;
   }
   if (c.invert) {
     e = `((v) => (typeof v === 'boolean' ? !v : 1 - Number(v)))(${e})`;
   }
   if (c.to === "number") {
     e = `((v) => (typeof v === 'number' ? v : parseFloat(String(v).replace(',', '.'))))(${e})`;
-    if (c.decimals !== void 0) {
-      e = round(e, c.decimals);
+    if (decimals !== void 0) {
+      e = round(e, decimals);
     }
   } else if (c.to === "string") {
-    e = c.decimals !== void 0 ? `((v) => (isNaN(Number(v)) || v === '' || v === null ? String(v) : Number(v).toFixed(${c.decimals})))(${e})` : `String(${e})`;
+    e = decimals !== void 0 ? `((v) => (isNaN(Number(v)) || v === '' || v === null ? String(v) : Number(v).toFixed(${decimals})))(${e})` : `String(${e})`;
     if (c.suffix) {
       e = `${e} + ${lit(c.suffix)}`;
     }
   } else if (c.to === "boolean") {
     e = `((v) => v === true || v === 1 || ['true', '1', 'on', 'an', 'ja', 'yes'].includes(String(v).toLowerCase()))(${e})`;
     invertible = false;
-  } else if (c.decimals !== void 0) {
-    e = `((v) => (typeof v === 'number' ? ${round("v", c.decimals)} : v))(${e})`;
+  } else if (decimals !== void 0) {
+    e = `((v) => (typeof v === 'number' ? ${round("v", decimals)} : v))(${e})`;
   }
   const result = { read: e };
   if (writeable && invertible) {
