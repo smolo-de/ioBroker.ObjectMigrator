@@ -24,7 +24,7 @@ this adapter is for the **migration**.
 > The adapter changes objects and writes history data. **Make a full backup before the first
 > "Write".** Use at your own risk and without warranty – see [Disclaimer](#disclaimer).
 >
-> German user guide: [docs/de/README.md](docs/de/README.md)
+> Deutsch: [README.de.md](README.de.md) · German user guide: [docs/de/README.md](docs/de/README.md)
 
 ### Features
 
@@ -55,6 +55,18 @@ Admin → tab **"Object Migrator"**:
 
 - js-controller ≥ 6.0.11, admin ≥ 7.6.20, Node.js ≥ 22
 - history ≥ 5.2.0 for the history migration (one instance, chosen in the instance settings)
+
+### Installation from GitHub
+
+The adapter is not in the ioBroker repository yet. Install the branch `dev`, which contains the built
+files:
+
+- Admin → Adapters → GitHub icon "Install from custom URL" → "Custom":
+  `https://github.com/smolo-de/ioBroker.ObjectMigrator/tree/dev`
+- or on the console: `iobroker url https://github.com/smolo-de/ioBroker.ObjectMigrator/tree/dev`
+
+Then add an instance ("+" in the admin or `iobroker add objectmigrator`). `/tree/dev` matters: without a
+branch `main` is installed, which has no built files.
 
 ## Documentation
 
