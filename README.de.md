@@ -69,8 +69,8 @@ Der Adapter ist noch nicht im ioBroker-Repository. Installiert wird der Branch `
 Dateien enthält:
 
 - Admin → Adapter → GitHub-Symbol „Installieren aus eigener URL“ → „Benutzerdefiniert“:
-  `https://github.com/smolo-de/ioBroker.ObjectMigrator/tree/dev`
-- oder auf der Konsole: `iobroker url https://github.com/smolo-de/ioBroker.ObjectMigrator/tree/dev`
+  `https://github.com/smolo-de/ioBroker.objectmigrator/tree/dev`
+- oder auf der Konsole: `iobroker url https://github.com/smolo-de/ioBroker.objectmigrator/tree/dev`
 
 Danach eine Instanz anlegen („+“ im Admin bzw. `iobroker add objectmigrator`). Wichtig ist
 `/tree/dev`: Ohne Branch wird `main` installiert, und dort fehlen die gebauten Dateien.

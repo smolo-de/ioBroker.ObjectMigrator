@@ -62,8 +62,8 @@ The adapter is not in the ioBroker repository yet. Install the branch `dev`, whi
 files:
 
 - Admin → Adapters → GitHub icon "Install from custom URL" → "Custom":
-  `https://github.com/smolo-de/ioBroker.ObjectMigrator/tree/dev`
-- or on the console: `iobroker url https://github.com/smolo-de/ioBroker.ObjectMigrator/tree/dev`
+  `https://github.com/smolo-de/ioBroker.objectmigrator/tree/dev`
+- or on the console: `iobroker url https://github.com/smolo-de/ioBroker.objectmigrator/tree/dev`
 
 Then add an instance ("+" in the admin or `iobroker add objectmigrator`). `/tree/dev` matters: without a
 branch `main` is installed, which has no built files.
