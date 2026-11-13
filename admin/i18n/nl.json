@@ -1,0 +1,8 @@
+{
+    "objectmigrator adapter settings": "Adapterinstellingen voor objectmigrator",
+    "History instance": "Geschiedenis exemplaar",
+    "Values per storeState chunk": "Waarden per storeState-segment",
+    "Pause between chunks (ms)": "Pauze tussen chunks (ms)",
+    "Default base path for create mode": "Standaardbasispad voor de maakmodus",
+    "Copy settings of not installed adapters": "Kopieer instellingen van niet geïnstalleerde adapters"
+}

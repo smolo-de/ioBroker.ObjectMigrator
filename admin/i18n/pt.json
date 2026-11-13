@@ -1,0 +1,8 @@
+{
+    "objectmigrator adapter settings": "Configurações do adaptador para objectmigrator",
+    "History instance": "Instância de histórico",
+    "Values per storeState chunk": "Valores por bloco storeState",
+    "Pause between chunks (ms)": "Pausa entre pedaços (ms)",
+    "Default base path for create mode": "Caminho base padrão para o modo de criação",
+    "Copy settings of not installed adapters": "Copiar configurações de adaptadores não instalados"
+}

@@ -1,0 +1,114 @@
+{
+    "common": {
+        "name": "objectmigrator",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "uk": "Початкова версія",
+                "zh-cn": "首次出版"
+            }
+        },
+        "titleLang": {
+            "en": "Object Migrator",
+            "de": "Objektmigrator",
+            "ru": "Мигратор объектов",
+            "pt": "Migrador de objetos",
+            "nl": "Objectmigrator",
+            "fr": "Migrateur d'objets",
+            "it": "Migratore di oggetti",
+            "es": "Migrador de objetos",
+            "pl": "Migrator obiektów",
+            "uk": "Мігратор об'єктів",
+            "zh-cn": "对象迁移器"
+        },
+        "desc": {
+            "en": "Migrate object settings and history data to alias objects or objects of another adapter",
+            "de": "Objekteinstellungen und Verlaufsdaten zu Aliasobjekten oder Objekten eines anderen Adapters migrieren",
+            "ru": "Перенос настроек объекта и данных истории в объекты-псевдонимы или объекты другого адаптера.",
+            "pt": "Migrar configurações de objeto e dados históricos para objetos de alias ou objetos de outro adaptador",
+            "nl": "Migreer objectinstellingen en historiegegevens naar aliasobjecten of objecten van een andere adapter",
+            "fr": "Migrer les paramètres d'objet et les données d'historique vers des objets alias ou des objets d'un autre adaptateur",
+            "it": "Migrare le impostazioni degli oggetti e i dati della cronologia su oggetti alias o oggetti di un altro adattatore",
+            "es": "Migrar configuraciones de objetos y datos históricos a objetos alias u objetos de otro adaptador",
+            "pl": "Przeprowadź migrację ustawień obiektów i danych historycznych do obiektów aliasów lub obiektów innego adaptera",
+            "uk": "Перенесіть параметри об’єкта та дані історії до псевдонімів об’єктів або об’єктів іншого адаптера",
+            "zh-cn": "将对象设置和历史数据迁移到别名对象或另一个适配器的对象"
+        },
+        "authors": [
+            "smolo-de <9969181+smolo-de@users.noreply.github.com>"
+        ],
+        "keywords": [
+            "alias",
+            "migration",
+            "history",
+            "settings",
+            "custom"
+        ],
+        "licenseInformation": {
+            "type": "free",
+            "license": "MIT"
+        },
+        "platform": "Javascript/Node.js",
+        "icon": "objectmigrator.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/smolo-de/ioBroker.objectmigrator/main/admin/objectmigrator.png",
+        "readme": "https://github.com/smolo-de/ioBroker.objectmigrator/blob/main/README.md",
+        "loglevel": "info",
+        "tier": 3,
+        "mode": "daemon",
+        "type": "utility",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "assumption",
+        "adminUI": {
+            "config": "json",
+            "tab": "html"
+        },
+        "eraseOnUpload": true,
+        "dependencies": [
+            {
+                "js-controller": ">=6.0.11"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=7.6.20"
+            }
+        ],
+        "messagebox": true,
+        "adminTab": {
+            "singleton": false,
+            "name": {
+                "en": "Object Migrator",
+                "de": "Objekt-Migrator",
+                "ru": "Object Migrator",
+                "pt": "Object Migrator",
+                "nl": "Object Migrator",
+                "fr": "Object Migrator",
+                "it": "Object Migrator",
+                "es": "Object Migrator",
+                "pl": "Object Migrator",
+                "uk": "Object Migrator",
+                "zh-cn": "Object Migrator"
+            }
+        }
+    },
+    "native": {
+        "historyInstance": "history.0",
+        "chunkSize": 5000,
+        "chunkPauseMs": 1000,
+        "defaultBasePath": "alias.0",
+        "copyUninstalledSettings": true
+    },
+    "objects": [],
+    "instanceObjects": []
+}

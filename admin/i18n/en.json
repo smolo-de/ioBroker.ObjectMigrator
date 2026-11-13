@@ -1,0 +1,8 @@
+{
+    "objectmigrator adapter settings": "Adapter settings for objectmigrator",
+    "History instance": "History instance",
+    "Values per storeState chunk": "Values per storeState chunk",
+    "Pause between chunks (ms)": "Pause between chunks (ms)",
+    "Default base path for create mode": "Default base path for create mode",
+    "Copy settings of not installed adapters": "Copy settings of not installed adapters"
+}

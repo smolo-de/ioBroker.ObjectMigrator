@@ -1,0 +1,8 @@
+{
+    "objectmigrator adapter settings": "objectmigrator的适配器设置",
+    "History instance": "历史实例",
+    "Values per storeState chunk": "每个 storeState 块的值",
+    "Pause between chunks (ms)": "块之间的暂停（毫秒）",
+    "Default base path for create mode": "创建模式的默认基本路径",
+    "Copy settings of not installed adapters": "复制未安装适配器的设置"
+}

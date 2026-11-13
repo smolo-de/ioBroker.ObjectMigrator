@@ -1,0 +1,56 @@
+{
+    "i18n": true,
+    "type": "panel",
+    "items": {
+        "historyInstance": {
+            "type": "text",
+            "label": "History instance",
+            "newLine": true,
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 4,
+            "xl": 4
+        },
+        "chunkSize": {
+            "type": "number",
+            "label": "Values per storeState chunk",
+            "newLine": true,
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 4,
+            "xl": 4
+        },
+        "chunkPauseMs": {
+            "type": "number",
+            "label": "Pause between chunks (ms)",
+            "newLine": true,
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 4,
+            "xl": 4
+        },
+        "defaultBasePath": {
+            "type": "text",
+            "label": "Default base path for create mode",
+            "newLine": true,
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 4,
+            "xl": 4
+        },
+        "copyUninstalledSettings": {
+            "type": "checkbox",
+            "label": "Copy settings of not installed adapters",
+            "newLine": true,
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 4,
+            "xl": 4
+        }
+    }
+}

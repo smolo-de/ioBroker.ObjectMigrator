@@ -1,0 +1,69 @@
+{
+    "cli": true,
+    "target": "directory",
+    "adapterName": "objectmigrator",
+    "title": "Object Migrator",
+    "description": "Migrate object settings and history data to alias objects or objects of another adapter",
+    "keywords": ["alias", "migration", "history", "settings", "custom"],
+    "expert": "yes",
+    "features": ["adapter"],
+    "adminFeatures": ["tab"],
+    "type": "utility",
+    "startMode": "daemon",
+    "connectionType": "local",
+    "dataSource": "assumption",
+    "connectionIndicator": "no",
+    "language": "TypeScript",
+    "nodeVersion": "22",
+    "adminUi": "json",
+    "tabReact": "yes",
+    "i18n": "JSON",
+    "tools": ["ESLint", "Prettier", "type checking", "code coverage"],
+    "eslintConfig": "official",
+    "releaseScript": "yes",
+    "devServer": "local",
+    "devServerPort": 8081,
+    "indentation": "Space (4)",
+    "quotes": "single",
+    "authorName": "smolo-de",
+    "authorGithub": "smolo-de",
+    "authorEmail": "9969181+smolo-de@users.noreply.github.com",
+    "gitRemoteProtocol": "HTTPS",
+    "gitCommit": "no",
+    "defaultBranch": "main",
+    "dependabot": "yes",
+    "license": "MIT License",
+    "adapterSettings": [
+        {
+            "key": "historyInstance",
+            "defaultValue": "history.0",
+            "inputType": "text",
+            "label": "History instance"
+        },
+        {
+            "key": "chunkSize",
+            "defaultValue": 5000,
+            "inputType": "number",
+            "label": "Values per storeState chunk"
+        },
+        {
+            "key": "chunkPauseMs",
+            "defaultValue": 1000,
+            "inputType": "number",
+            "label": "Pause between chunks (ms)"
+        },
+        {
+            "key": "defaultBasePath",
+            "defaultValue": "alias.0",
+            "inputType": "text",
+            "label": "Default base path for create mode"
+        },
+        {
+            "key": "copyUninstalledSettings",
+            "defaultValue": true,
+            "inputType": "checkbox",
+            "label": "Copy settings of not installed adapters"
+        }
+    ],
+    "creatorVersion": "3.1.5"
+}

@@ -1,0 +1,8 @@
+{
+    "objectmigrator adapter settings": "Налаштування адаптера для objectmigrator",
+    "History instance": "Примірник історії",
+    "Values per storeState chunk": "Значення на послідовність storeState",
+    "Pause between chunks (ms)": "Пауза між фрагментами (мс)",
+    "Default base path for create mode": "Базовий шлях за замовчуванням для режиму створення",
+    "Copy settings of not installed adapters": "Копіювати налаштування невстановлених адаптерів"
+}

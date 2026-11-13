@@ -1,0 +1,29 @@
+# No dot-directories except github/vscode
+.*/
+!.vscode/
+!.github/
+
+*.code-workspace
+node_modules
+nbproject
+
+# npm package files
+iobroker.*.tgz
+
+Thumbs.db
+.commitinfo
+
+# NYC coverage files
+coverage
+
+# i18n intermediate files
+admin/i18n/flat.txt
+admin/i18n/*/flat.txt
+# compiled output (built by CI / release)
+build/
+
+# admin tab (built by vite from src-admin)
+admin/tab.html
+
+# end-to-end test environment (CI)
+.e2e/
