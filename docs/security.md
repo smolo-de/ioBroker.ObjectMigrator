@@ -47,6 +47,10 @@ expressions, `[…]` on other values (`val["constructor"]`). Calls of arrow func
 compares all generated formulas with JavaScript), so a checked formula can also be stored as
 `alias.read/write`, where js-controller evaluates it.
 
+The formulas of the simple conversions are built from the converter (07 §2, `converter.ts`): texts and
+tables go in as JSON with `<`, `>`, `/`, U+2028 and U+2029 escaped, factor, offset and decimals only as
+finite numbers - anything else is ignored. The result is checked like any other formula.
+
 **Security review 2026-11-13 – finding fixed:** the first version used a deny list of words
 (checked with the texts in quotes removed) before `new Function`. It could be bypassed with
 property names as text (`val["constructor"]["constructor"]("…")()`), unicode escapes

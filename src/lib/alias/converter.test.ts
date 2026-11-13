@@ -1,5 +1,12 @@
 import { expect } from 'chai';
-import { compileExpression, converterToAlias, convertWith, isConverting } from './converter';
+import {
+    checkExpression,
+    compileExpression,
+    converterToAlias,
+    convertWith,
+    isConverting,
+    type ValueConverter,
+} from './converter';
 
 describe('alias/converter', () => {
     it('no conversion: no alias functions', () => {
@@ -52,5 +59,29 @@ describe('alias/converter', () => {
             read: 'val / 2',
             write: 'val * 2',
         });
+    });
+
+    it('texts in tables and suffixes stay one literal (<, >, / and U+2028 escaped)', () => {
+        const c = { map: { '</script>': 'a/b<c>', 1: 'x\u2028y' }, to: 'string' as const, suffix: ' <°C/>' };
+        const { read } = converterToAlias(c);
+        expect(read).to.not.match(/[<>/\u2028\u2029]/);
+        expect(convertWith(c, '</script>')).to.equal('a/b<c> <°C/>');
+        expect(convertWith(c, 1)).to.equal('x\u2028y <°C/>');
+        const { write } = converterToAlias({ map: { '</script>': 'a/b<c>' } }, true);
+        expect(compileExpression(write!)('a/b<c>')).to.equal('</script>');
+    });
+
+    it('only numbers go into a formula: other factor, offset or decimals are ignored', () => {
+        const bad = { factor: '1); process.exit(', offset: NaN, decimals: 2.5 } as unknown as ValueConverter;
+        const { read } = converterToAlias({ ...bad, to: 'number' });
+        expect(read).to.not.include('process');
+        expect(checkExpression(read!)).to.equal(undefined);
+        expect(convertWith({ ...bad, to: 'number' }, '7')).to.equal(7);
+        expect(converterToAlias({ decimals: 99 })).to.deep.equal({ read: 'val' });
+        expect(converterToAlias({ offset: Infinity, factor: 2 }).read).to.equal('(Number(val) * 2)');
+    });
+
+    it('× 0 has no write function', () => {
+        expect(converterToAlias({ factor: 0 }, true).write).to.equal(undefined);
     });
 });

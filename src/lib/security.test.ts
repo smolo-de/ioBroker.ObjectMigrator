@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { isAllowedSender } from './access';
-import { checkExpression, compileExpression, converterToAlias } from './alias/converter';
+import { checkExpression, compileExpression, converterToAlias, type ValueConverter } from './alias/converter';
 import { HistoryAdapterBackend, type MessageTransport } from './history/HistoryBackend';
 import { isRunId, isValidDbName, isValidId, validatePlan } from './migration/MigrationRunner';
 import { deepMerge } from './settings/settings';
@@ -101,15 +101,17 @@ describe('security', () => {
     });
 
     it('the interpreter computes like JavaScript for all generated formulas', () => {
-        const converters = [
+        const converters: ValueConverter[] = [
             { factor: 0.1, offset: -2, decimals: 1, to: 'number' as const },
             { to: 'string' as const, decimals: 2, suffix: ' °C' },
             { map: { 0: 'Aus', 1: 'An' }, invert: true },
             { to: 'boolean' as const },
             { decimals: 3 },
             { to: 'number' as const },
+            // texts with characters that JSON leaves raw (escaped in the formula)
+            { map: { '</script>': 'a/b<c>', 1: 'x\u2028y' }, to: 'string' as const, suffix: ' <°C/>' },
         ];
-        const inputs: unknown[] = [0, 1, 21.456, -3.2, '12,5', 'on', 'x', true, false, null, '', '1'];
+        const inputs: unknown[] = [0, 1, 21.456, -3.2, '12,5', 'on', 'x', true, false, null, '', '1', '</script>'];
         for (const c of converters) {
             const { read, write } = converterToAlias(c, true);
             for (const expr of [read, write].filter((e): e is string => !!e)) {
@@ -123,11 +125,12 @@ describe('security', () => {
     });
 
     it('all generated alias functions pass the formula check', () => {
-        const converters = [
+        const converters: ValueConverter[] = [
             { factor: 0.1, offset: 2, decimals: 1, to: 'number' as const },
             { to: 'string' as const, decimals: 2, suffix: ' °C' },
             { map: { 0: 'Aus', 1: 'An' }, invert: true },
             { to: 'boolean' as const },
+            { map: { '</script>': 'a/b<c>', 1: 'x\u2028y' }, to: 'string' as const, suffix: ' <°C/>' },
         ];
         for (const c of converters) {
             const { read, write } = converterToAlias(c, true);

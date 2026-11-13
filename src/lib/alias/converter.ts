@@ -29,7 +29,38 @@ export interface ValueConverter {
     write?: string;
 }
 
-const lit = (v: unknown): string => JSON.stringify(v);
+/** Characters JSON leaves raw in a text - escaped, so the text stays one literal wherever the formula ends up */
+const UNSAFE_IN_CODE: Record<string, string> = {
+    '<': '\\u003C',
+    '>': '\\u003E',
+    '/': '\\u002F',
+    '\u2028': '\\u2028',
+    '\u2029': '\\u2029',
+};
+
+/**
+ * A value (text, table) as literal in a formula: JSON with the characters above escaped
+ *
+ * @param v - value
+ */
+const lit = (v: unknown): string =>
+    (JSON.stringify(v) ?? 'null').replace(/[<>/\u2028\u2029]/g, ch => UNSAFE_IN_CODE[ch]);
+
+/**
+ * Only a finite number goes into a formula - anything else (text, NaN, Infinity) is the default
+ *
+ * @param v - value of the converter
+ * @param fallback - default
+ */
+const finite = (v: unknown, fallback: number): number => (typeof v === 'number' && Number.isFinite(v) ? v : fallback);
+
+/**
+ * Decimals 0…15 (an integer), else none
+ *
+ * @param v - value of the converter
+ */
+const decimalsOf = (v: unknown): number | undefined =>
+    typeof v === 'number' && Number.isInteger(v) && v >= 0 && v <= 15 ? v : undefined;
 
 /**
  * Is anything converted?
@@ -76,23 +107,26 @@ export function converterToAlias(c: ValueConverter | undefined, writeable = fals
     if (c.map && Object.keys(c.map).length) {
         e = `(${lit(c.map)}[String(${e})] ?? ${e})`;
     }
-    const factor = c.factor ?? 1;
-    const offset = c.offset ?? 0;
+    const factor = finite(c.factor, 1);
+    const offset = finite(c.offset, 0);
+    const decimals = decimalsOf(c.decimals);
     if (factor !== 1 || offset !== 0) {
         e = `(Number(${e}) * ${factor}${offset ? ` + ${offset}` : ''})`;
+        // × 0 can not be inverted
+        invertible = factor !== 0;
     }
     if (c.invert) {
         e = `((v) => (typeof v === 'boolean' ? !v : 1 - Number(v)))(${e})`;
     }
     if (c.to === 'number') {
         e = `((v) => (typeof v === 'number' ? v : parseFloat(String(v).replace(',', '.'))))(${e})`;
-        if (c.decimals !== undefined) {
-            e = round(e, c.decimals);
+        if (decimals !== undefined) {
+            e = round(e, decimals);
         }
     } else if (c.to === 'string') {
         e =
-            c.decimals !== undefined
-                ? `((v) => (isNaN(Number(v)) || v === '' || v === null ? String(v) : Number(v).toFixed(${c.decimals})))(${e})`
+            decimals !== undefined
+                ? `((v) => (isNaN(Number(v)) || v === '' || v === null ? String(v) : Number(v).toFixed(${decimals})))(${e})`
                 : `String(${e})`;
         if (c.suffix) {
             e = `${e} + ${lit(c.suffix)}`;
@@ -100,8 +134,8 @@ export function converterToAlias(c: ValueConverter | undefined, writeable = fals
     } else if (c.to === 'boolean') {
         e = `((v) => v === true || v === 1 || ['true', '1', 'on', 'an', 'ja', 'yes'].includes(String(v).toLowerCase()))(${e})`;
         invertible = false;
-    } else if (c.decimals !== undefined) {
-        e = `((v) => (typeof v === 'number' ? ${round('v', c.decimals)} : v))(${e})`;
+    } else if (decimals !== undefined) {
+        e = `((v) => (typeof v === 'number' ? ${round('v', decimals)} : v))(${e})`;
     }
     const result: { read?: string; write?: string } = { read: e };
 
